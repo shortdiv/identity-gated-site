@@ -6,9 +6,8 @@ export function handler(event, context, callback) {
   const cookieHeader = headers.cookie || "";
   const cookies = cookie.parse(cookieHeader);
 
-  const generateJWT = () => {
-
-    decodedToken.payload
+  const generateJWT = (decodedToken) => {
+    console.log("decoded token    ", decodedToken.payload)
     jwt.sign(
       {
         exp: decodedToken.payload.exp,
@@ -26,6 +25,8 @@ export function handler(event, context, callback) {
   try {
     originalToken = cookies.nf_jwt;
     decodedToken = jwt.decode(cookies.nf_jwt, { complete: true });
+    token = generateJWT(decodedToken)
+    console.log("this is a token    ", token)
   } catch(e) {
     console.log(e)
   }
