@@ -25,6 +25,8 @@ export function handler(event, context, callback) {
   try {
     originalToken = cookies.nf_jwt;
     decodedToken = jwt.decode(cookies.nf_jwt, { complete: true });
+  } catch (e) {
+    console.log("Error", e);
   }
 
   const netlifyCookie = cookie.serialize("nf_jwt", token, {
