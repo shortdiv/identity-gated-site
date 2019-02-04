@@ -7,8 +7,8 @@ export function handler(event, context, callback) {
   const cookies = cookie.parse(cookieHeader);
 
   const generateJWT = () => {
-    console.log(decodedToken.payload)
-    console.log(decodedToken.payload.app_metadata.roles)
+
+    decodedToken.payload
     jwt.sign(
       {
         exp: decodedToken.payload.exp,
@@ -17,16 +17,17 @@ export function handler(event, context, callback) {
         },
         user_metadata: decodedToken.payload.user_metadata
       },
-      "suchSecretsMuchToHide"
+      "thisIsASecret"
     );
+
   }
 
   let token, decodedToken, originalToken;
   try {
     originalToken = cookies.nf_jwt;
     decodedToken = jwt.decode(cookies.nf_jwt, { complete: true });
-  } catch (e) {
-    console.log("Error", e);
+  } catch(e) {
+    console.log(e)
   }
 
   const netlifyCookie = cookie.serialize("nf_jwt", token, {
@@ -35,8 +36,6 @@ export function handler(event, context, callback) {
     expires: new Date(expiry.toString())
   });
 
-  console.log(netlifyCookie)
-  
   callback(null, {
     statusCode: 200,
     body: JSON.stringify({ msg: "Hello, this is a super secret function!" })
