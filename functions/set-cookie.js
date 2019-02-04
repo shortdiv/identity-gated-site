@@ -33,7 +33,7 @@ export function handler(event, context, callback) {
   const netlifyCookie = cookie.serialize("nf_jwt", token, {
     secure: true,
     path: "/",
-    expires: new Date(expiry.toString())
+    expires: new Date(decodedToken.payload.exp)
   });
 
   callback(null, {
